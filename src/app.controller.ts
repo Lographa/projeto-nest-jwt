@@ -1,7 +1,6 @@
+import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { AppService } from './app.service';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Controller()
@@ -15,7 +14,8 @@ export class AppController {
 
   constructor(private authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
+  //regra de segurança dentro de local.strategy
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
     return this.authService.loginWithCredentials(req.user);
